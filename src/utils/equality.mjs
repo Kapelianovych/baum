@@ -28,9 +28,7 @@ function objectsEqual(o1: ObjectType, o2: ObjectType): boolean {
 
 function arrayEqual(a1: Array<mixed>, a2: Array<mixed>): boolean {
   if (a1.length === a2.length) {
-    return a1.every(i1 => {
-      return a2.includes(i1)
-    })
+    return a1.every(v => a2.includes(v))
   } else {
     return false
   }

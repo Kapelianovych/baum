@@ -8,8 +8,8 @@ type ExpectChecks = {
   toNotEqual: (expected: mixed) => void,
   toThrow: (expectedError?: Error) => void,
   toNotThrow: () => void,
-  resolves: () => Promise<ExpectChecks>,
-  rejects: (expectedError?: Error) => Promise<void>,
+  toBeResolved: () => Promise<ExpectChecks>,
+  toBeRejected: (expectedError?: Error) => Promise<void>,
 }
 
 export async function group(title: string, fn: () => Promise<void>) {
@@ -80,11 +80,9 @@ export function expect(given: mixed): ExpectChecks {
         throw new BaumError(`"${given.name}" must not throw an error!`, error)
       }
     },
-    async resolves() {
-      if (typeof given !== 'function' && !(given instanceof Promise)) {
-        throw new TypeError(`In order to check rejecting Promise, you must pass to "expect()":
-        - "function", that returns "Promise",
-        - or "Promise",
+    async toBeResolved() {
+      if (!(given instanceof Promise)) {
+        throw new TypeError(`In order to check rejecting Promise, you must pass to "expect()" "Promise",
         but received "${typeof given}"`)
       }
 
@@ -92,18 +90,16 @@ export function expect(given: mixed): ExpectChecks {
 
       try {
         // $FlowFixMe - given may be Promise and function
-        value = given instanceof Promise ? await given : await given()
+        value = await given
       } catch (error) {
         throw new BaumError('"Promise" must not be rejected!', error)
       }
 
       return expect(value)
     },
-    async rejects(expectedError?: Error) {
-      if (typeof given !== 'function' && !(given instanceof Promise)) {
-        throw new TypeError(`In order to check rejecting Promise, you must pass to "expect()":
-        - "function", that returns "Promise",
-        - or "Promise",
+    async toBeRejected(expectedError?: Error) {
+      if (!(given instanceof Promise)) {
+        throw new TypeError(`In order to check rejecting Promise, you must pass to "expect()" "Promise",
         but received "${typeof given}"`)
       }
 
@@ -111,7 +107,7 @@ export function expect(given: mixed): ExpectChecks {
 
       try {
         // $FlowFixMe - given may be Promise and function
-        given instanceof Promise ? await given : await given()
+        await given
       } catch (error) {
         if (error) {
           receivedError = error

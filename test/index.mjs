@@ -33,19 +33,19 @@ group('Self tests', () => {
     expect(new Set([1])).toNotEqual(new Set(['a']))
   })
 
-  test('Test "resolves()": Promise must resolves properly', async () => {
-    await expect(Promise.resolve(1)).resolves()
+  test('Test "toBeResolved()": Promise must toBeResolved properly', async () => {
+    await expect(Promise.resolve(1)).toBeResolved()
   })
 
   test('Test getting value from Promise and checking it', async () => {
-    ;(await expect(Promise.resolve(1)).resolves()).toEqual(1)
+    ;(await expect(Promise.resolve(1)).toBeResolved()).toEqual(1)
   })
 
   test('Check Promise rejecting', async () => {
-    await expect(Promise.reject(new Error('Error'))).rejects()
+    await expect(Promise.reject(new Error('Error'))).toBeRejected()
   })
 
   test('Check Promise rejecting with expected error', async () => {
-    await expect(Promise.reject(new Error('Error'))).rejects(new Error('Error'))
+    await expect(Promise.reject(new Error('Error'))).toBeRejected(new Error('Error'))
   })
 })

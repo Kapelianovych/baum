@@ -18,7 +18,7 @@ declare module '@prostory/baum' {
     toNotEqual: (expected: mixed) => void,
     toThrow: (expectedError?: Error) => void,
     toNotThrow: () => void,
-    resolves: () => Promise<ExpectChecks>,
-    rejects: (expectedError?: Error) => Promise<void>,
+    toBeResolved: () => Promise<ExpectChecks>,
+    toBeRejected: (expectedError?: Error) => Promise<void>,
   }
 }
