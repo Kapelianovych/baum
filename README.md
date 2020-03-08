@@ -95,6 +95,40 @@ This is the main function which performs testing your code. It accepts *value* t
     })
     ```
 
+  - `toMatch(expected: string | RegExp): void`
+    this method checks if *value*(string) match to *expected*.
+
+    ```javascript
+    import { group, test, expect } from '/node_modules/@prostory/baum/dist/index.mjs'
+
+    group('Group tests that check functions', () => {
+      test('"test " does match "test"', () => {
+        expect('test ').toMatch('test') // pass
+      })
+
+      test('"test " does match "/test/"', () => {
+        expect('test ').toMatch(/test/) // pass
+      })
+    })
+    ```
+
+  - `toNotMatch(expected: string | RegExp): void`
+    this method checks if *value*(string) does not math to *expected*.
+
+    ```javascript
+    import { group, test, expect } from '/node_modules/@prostory/baum/dist/index.mjs'
+
+    group('Group tests that check functions', () => {
+      test('"test d" does not match "tested"', () => {
+        expect('test d').toNotMatch('tested') // pass
+      })
+
+      test('"test " does match "/^test^/"', () => {
+        expect('test ').toNotMatch(/^test$/) // pass
+      })
+    })
+    ```
+
   - `toBeResolved(): Promise<ExpectChecks>`
     this method checks for **resolving** Promise. If you need to check if `Promise` does not rejects - simply invoke it. If you need to test resolved value, *await* function and on result invoke needed methods that described here (`toBeResolved()` returns the same object as `expect(...)` function).
 
@@ -129,6 +163,6 @@ This is the main function which performs testing your code. It accepts *value* t
     })
     ```
 
-> Note - all tests are executed asyncrounously, in other words - concurrently. So they finish in not the same order as were started. Also for testing `Promises` you must `await` results of `toBeResolved()` and `toBeRejected()`, in order to test finish properly.
+> Note - all tests are executed asyncrounously, in other words - concurrently. So they finish in not the same order as were started. Also for testing `Promises` you must `await` results of `toBeResolved()` and `toBeRejected()`, in order to tests finish properly.
 
 With ❤️ to JS

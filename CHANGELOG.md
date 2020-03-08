@@ -1,4 +1,12 @@
-# 0.1.0
+# 0.2.0
+
+- Create `toMatch()` function.
+- Create `toNotMatch()` function.
+- Make error messages more clear.
+- Update typings.
+- Update README.
+
+## 0.1.0
 
 - Create `group()` function.
 - Create `test()` function.

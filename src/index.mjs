@@ -59,7 +59,7 @@ export function expect(given: mixed): ExpectChecks {
         }
       }
       if (!receivedError) {
-        throw new BaumError(`"${given.name}" must throw an error!`)
+        throw new BaumError(`"${given.name}" do not throw an error!`)
       } else if (expectedError) {
         throw new BaumError(`"${given.name}" throws error that do not equal to expected
         Given name: ${receivedError.name} - expected name: ${expectedError.name}
@@ -77,7 +77,35 @@ export function expect(given: mixed): ExpectChecks {
         // $FlowFixMe - given may be only function
         given()
       } catch (error) {
-        throw new BaumError(`"${given.name}" must not throw an error!`, error)
+        throw new BaumError(`"${given.name}" throw an error!`, error)
+      }
+    },
+    toMatch(expected: string | RegExp) {
+      if (typeof given !== 'string') {
+        throw new TypeError(`Matched value must be of type "string", but given ${typeof given}`)
+      }
+
+      const regexpedExpected = typeof expected === 'string'
+        ? new RegExp(expected)
+        : expected
+
+      const isMatched = regexpedExpected.test(given)
+      if (!isMatched) {
+        throw new BaumError(`"${given}" does not match to ${regexpedExpected.toString()}`)
+      }
+    },
+    toNotMatch(expected: string | RegExp) {
+      if (typeof given !== 'string') {
+        throw new TypeError(`Matched value must be of type "string", but given ${typeof given}`)
+      }
+
+      const regexpedExpected = typeof expected === 'string'
+        ? new RegExp(expected)
+        : expected
+
+      const isMatched = regexpedExpected.test(given)
+      if (isMatched) {
+        throw new BaumError(`"${given}" match to ${regexpedExpected.toString()}`)
       }
     },
     async toBeResolved() {
@@ -92,7 +120,7 @@ export function expect(given: mixed): ExpectChecks {
         // $FlowFixMe - given may be Promise and function
         value = await given
       } catch (error) {
-        throw new BaumError('"Promise" must not be rejected!', error)
+        throw new BaumError('"Promise" is not resolved!', error)
       }
 
       return expect(value)
@@ -114,13 +142,13 @@ export function expect(given: mixed): ExpectChecks {
         }
       }
       if (!receivedError) {
-        throw new BaumError('"Promise" must not be resolved!')
+        throw new BaumError('"Promise" is not rejected!')
       } else if (expectedError) {
         if (
           expectedError.name !== receivedError.name ||
           expectedError.message !== receivedError.message
         ) {
-          throw new BaumError(`Rejection error in not equal to expected:
+          throw new BaumError(`Rejection error: actual error is not equal to expected:
           Given name: ${receivedError.name} - expected name: ${expectedError.name}
           Given message: ${receivedError.message} - expected message: ${expectedError.message}`)
         }

@@ -33,6 +33,29 @@ group('Self tests', () => {
     expect(new Set([1])).toNotEqual(new Set(['a']))
   })
 
+  test('Test "toMatch()": " sdf" to "/sdf/"', () => {
+    expect(' sdf  alsdkf').toMatch(/sdf/)
+  })
+
+  test('Test "toMatch()": " sdf " to "/^[\\s]+sdf[\\s]+$/"', () => {
+    expect(' sdf ').toMatch(/^[\s]+sdf[\s]+$/)
+  })
+
+  test('Test "toMatch()": " sdf" to "sdf"', () => {
+    expect(' sdf').toMatch('sdf')
+  })
+
+  test('Test "toNotMatch()": " sdf" to "/sdt/"', () => {
+    expect(' sdf').toNotMatch(/sdt/)
+  })
+  test('Test "toNotMatch()": " sdf" to "sdt"', () => {
+    expect(' sdf').toNotMatch('sdt')
+  })
+
+  test('Test "toNotMatch()": "sdf " to "/^[\\s]+sdf[\\s]+$/"', () => {
+    expect('sdf ').toNotMatch(/^[\s]+sdf$/)
+  })
+
   test('Test "toBeResolved()": Promise must toBeResolved properly', async () => {
     await expect(Promise.resolve(1)).toBeResolved()
   })
