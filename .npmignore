@@ -8,5 +8,6 @@ coverage/
 .eslintrc.json
 .flowconfig
 .prettierrc.json
+CHANGELOG.md
 gulpfile.js
 package-lock.json
