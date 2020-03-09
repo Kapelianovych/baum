@@ -45,7 +45,7 @@ function setEqual(a1: Set<mixed>, a2: Set<mixed>): boolean {
 
 function mapEqual(a1: Map<mixed, mixed>, a2: Map<mixed, mixed>): boolean {
   for (const [key, value] of a1.entries()) {
-    if (!a2.get(key) && equal(a2.get(key), value)) {
+    if (!a2.has(key) || !equal(a2.get(key), value)) {
       return false
     }
   }

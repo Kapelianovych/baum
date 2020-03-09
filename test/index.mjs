@@ -33,6 +33,26 @@ group('Self tests', () => {
     expect(new Set([1])).toNotEqual(new Set(['a']))
   })
 
+  test('Test "toEqual()": new Map(\'a\' [1]) === new Map(\'a\' [1])', () => {
+    const givenMap = new Map()
+    givenMap.set('a', [1])
+
+    const expectedMap = new Map()
+    expectedMap.set('a', [1])
+
+    expect(givenMap).toEqual(expectedMap)
+  })
+
+  test('Test "toNotEqual()": new Map(\'a\' [1]) !== new Map(\'a\' [12])', () => {
+    const givenMap = new Map()
+    givenMap.set('a', [1])
+
+    const expectedMap = new Map()
+    expectedMap.set('a', [12])
+
+    expect(givenMap).toNotEqual(expectedMap)
+  })
+
   test('Test "toMatch()": " sdf" to "/sdf/"', () => {
     expect(' sdf  alsdkf').toMatch(/sdf/)
   })
