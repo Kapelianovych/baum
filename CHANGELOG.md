@@ -1,4 +1,9 @@
-# 0.2.1
+# 0.2.2
+
+- Fix errors equality in `toThrow(error)` method.
+- Join error messages.
+
+## 0.2.1
 
 - Fix `Map` equality.
 
