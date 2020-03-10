@@ -14,6 +14,8 @@ group('Test promises', () => {
   })
 
   test('Check Promise rejecting with expected error', async () => {
-    await expect(Promise.reject(new Error('Error'))).toBeRejected(new Error('Error'))
+    await expect(Promise.reject(new Error('Error'))).toBeRejected(
+      new Error('Error')
+    )
   })
 })

@@ -1,6 +1,6 @@
 // @flow
 
-import BaumError from '../baum_error.mjs'
+import type BaumError from '../baum_error.mjs'
 
 export function groupTitle(title: string) {
   console.warn(`

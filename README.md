@@ -163,7 +163,7 @@ This is the main function which performs testing your code. It accepts *value* t
     })
     ```
 
-All mehods below test primitives and objects (for their types):
+All methods below test given value for their type (primitives and objects):
   - `isNumber: () => void`
   - `isNotNumber: () => void`
   - `isString: () => void`
@@ -192,6 +192,20 @@ All mehods below test primitives and objects (for their types):
   - `isNotPromise: () => void`
   - `isPlainObject: () => void`
   - `isNotPlainObject: () => void`
+
+  ```javascript
+  import { group, test, expect } from '/node_modules/@prostory/baum/dist/index.mjs'
+
+    group('Group tests that check Promises', () => {
+      test('Given value must be type of Promise', () => {
+        expect(new Promise((resolve, reject) => {})).isPromise() // pass
+      })
+
+      test('Given value must not be type of Promise', () => {
+        expect({}).isNotPromise() // pass
+      })
+    })
+  ```
 
 > Note - for testing `Promises` you must `await` Promise that returns by of `toBeResolved()` and `toBeRejected()` or return it, in order to tests finish properly.
 
