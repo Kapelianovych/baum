@@ -186,6 +186,12 @@ All mehods below test primitives and objects (for their types):
   - `isNotNull: () => void`
   - `isUndefined: () => void`
   - `isNotUndefined: () => void`
+  - `isFunction: () => void`
+  - `isNotFunction: () => void`
+  - `isPromise: () => void`
+  - `isNotPromise: () => void`
+  - `isPlainObject: () => void`
+  - `isNotPlainObject: () => void`
 
 > Note - for testing `Promises` you must `await` Promise that returns by of `toBeResolved()` and `toBeRejected()` or return it, in order to tests finish properly.
 

@@ -14,6 +14,9 @@ import {
   isWeakMap,
   isNull,
   isUndefined,
+  isFunction,
+  isPromise,
+  isPlainObject
 } from './value_type.mjs'
 
 type ExpectChecks = {
@@ -45,6 +48,12 @@ type ExpectChecks = {
   isNotNull: () => void,
   isUndefined: () => void,
   isNotUndefined: () => void,
+  isFunction: () => void,
+  isNotFunction: () => void,
+  isPromise: () => void,
+  isNotPromise: () => void,
+  isPlainObject: () => void,
+  isNotPlainObject: () => void,
   toBeResolved: () => Promise<ExpectChecks>,
   toBeRejected: (expectedError?: Error) => Promise<void>,
 }
@@ -325,6 +334,60 @@ export function expect(given: mixed): ExpectChecks {
         throw new BaumError(
           // $FlowFixMe - given is a WeakMap, otherwise match throws an error
           `"${given}" is "WeakMap"`
+        )
+      }
+    },
+    isFunction() {
+      const isType = isFunction(given)
+      if (!isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a function, otherwise match throws an error
+          `"${given}" is not a "function"`
+        )
+      }
+    },
+    isNotFunction() {
+      const isType = isFunction(given)
+      if (isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a function, otherwise match throws an error
+          `"${given}" is a "function"`
+        )
+      }
+    },
+    isPlainObject() {
+      const isType = isPlainObject(given)
+      if (!isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a function, otherwise match throws an error
+          `"${given}" is not a "plain object"`
+        )
+      }
+    },
+    isNotPlainObject() {
+      const isType = isPlainObject(given)
+      if (isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a function, otherwise match throws an error
+          `"${given}" is a "plain object"`
+        )
+      }
+    },
+    isPromise() {
+      const isType = isPromise(given)
+      if (!isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a function, otherwise match throws an error
+          `"${given}" is not a "Promise"`
+        )
+      }
+    },
+    isNotPromise() {
+      const isType = isPromise(given)
+      if (isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a function, otherwise match throws an error
+          `"${given}" is a "Promise"`
         )
       }
     },

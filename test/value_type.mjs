@@ -87,4 +87,28 @@ group('Test methods, that exemine types', () => {
   test('Map is not WeakMap', () => {
     expect(new Map()).isNotWeakMap()
   })
+
+  test('function is function', () => {
+    expect(() => {}).isFunction()
+  })
+
+  test('1 is not a function', () => {
+    expect(1).isNotFunction()
+  })
+
+  test('Promise is Promise', () => {
+    expect(new Promise((resolve, reject) => {})).isPromise()
+  })
+
+  test('1 is not a Promise', () => {
+    expect(1).isNotPromise()
+  })
+
+  test('{} is {}', () => {
+    expect({}).isPlainObject()
+  })
+
+  test('1 is not a {}', () => {
+    expect(1).isNotPlainObject()
+  })
 })

@@ -1,6 +1,18 @@
-# 0.3.0
+# 0.3.1
 
-- Add new methods for examining literals:
+- Add new methods for examining types:
+```javascript
+isFunction: () => void,
+isNotFunction: () => void,
+isPromise: () => void,
+isNotPromise: () => void,
+isPlainObject: () => void,
+isNotPlainObject: () => void,
+```
+
+## 0.3.0
+
+- Add new methods for examining types:
 ```javascript
 isNumber: () => void,
 isNotNumber: () => void,

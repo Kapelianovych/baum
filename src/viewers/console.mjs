@@ -3,7 +3,8 @@
 import BaumError from '../baum_error.mjs'
 
 export function groupTitle(title: string) {
-  console.warn(`----- ${title} -----`)
+  console.warn(`
+  ----- ${title} -----`)
 }
 
 export function passed(title: string) {
@@ -14,5 +15,6 @@ export function notPassed(title: string, error: BaumError) {
   console.error(`   -  Test: "${title}" has errors!
     : ${error.toString()}
 
-  ------ End of error ------`)
+  ------ End of error ------
+  `)
 }
