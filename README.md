@@ -163,6 +163,30 @@ This is the main function which performs testing your code. It accepts *value* t
     })
     ```
 
-> Note - all tests are executed asyncrounously, in other words - concurrently. So they finish in not the same order as were started. Also for testing `Promises` you must `await` results of `toBeResolved()` and `toBeRejected()`, in order to tests finish properly.
+All mehods below test primitives and objects (for their types):
+  - `isNumber: () => void`
+  - `isNotNumber: () => void`
+  - `isString: () => void`
+  - `isNotString: () => void`
+  - `isNaN: () => void`
+  - `isNotNaN: () => void`
+  - `isBoolean: () => void`
+  - `isNotBoolean: () => void`
+  - `isArray: () => void`
+  - `isNotArray: () => void`
+  - `isSet: () => void`
+  - `isNotSet: () => void`
+  - `isWeakSet: () => void`
+  - `isNotWeakSet: () => void`
+  - `isMap: () => void`
+  - `isNotMap: () => void`
+  - `isWeakMap: () => void`
+  - `isNotWeakMap: () => void`
+  - `isNull: () => void`
+  - `isNotNull: () => void`
+  - `isUndefined: () => void`
+  - `isNotUndefined: () => void`
 
-With ❤️ to JS
+> Note - for testing `Promises` you must `await` Promise that returns by of `toBeResolved()` and `toBeRejected()` or return it, in order to tests finish properly.
+
+With ❤️ to Baum

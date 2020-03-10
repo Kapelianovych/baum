@@ -1,6 +1,6 @@
 {
   "name": "@prostory/baum",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Test library to test ES modules in browser and NodeJS environments",
   "main": "dist/index.mjs",
   "scripts": {

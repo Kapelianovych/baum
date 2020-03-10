@@ -79,3 +79,16 @@ export function equal(v1: mixed, v2: mixed): boolean {
     return false
   }
 }
+
+export function match(given: mixed, expected: string | RegExp): boolean {
+  if (typeof given !== 'string') {
+    throw new TypeError(
+      `Matched value must be of type "string", but given ${typeof given}`
+    )
+  }
+
+  const regexpedExpected =
+    typeof expected === 'string' ? new RegExp(expected) : expected
+
+  return regexpedExpected.test(given)
+}

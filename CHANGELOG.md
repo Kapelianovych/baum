@@ -1,4 +1,34 @@
-# 0.2.2
+# 0.3.0
+
+- Add new methods for examining literals:
+```javascript
+isNumber: () => void,
+isNotNumber: () => void,
+isString: () => void,
+isNotString: () => void,
+isNaN: () => void,
+isNotNaN: () => void,
+isBoolean: () => void,
+isNotBoolean: () => void,
+isArray: () => void,
+isNotArray: () => void,
+isSet: () => void,
+isNotSet: () => void,
+isWeakSet: () => void,
+isNotWeakSet: () => void,
+isMap: () => void,
+isNotMap: () => void,
+isWeakMap: () => void,
+isNotWeakMap: () => void,
+isNull: () => void,
+isNotNull: () => void,
+isUndefined: () => void,
+isNotUndefined: () => void
+```
+- Make `group` and `test` functions syncronous, so output of tests will be in execution order.
+- Smal reorganization of library.
+
+## 0.2.2
 
 - Fix errors equality in `toThrow(error)` method.
 - Join error messages.

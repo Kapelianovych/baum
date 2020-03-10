@@ -3,16 +3,26 @@
 import { passed, notPassed, groupTitle } from './viewers/console.mjs'
 export { expect } from './expect/expect.mjs'
 
-export async function group(title: string, fn: () => Promise<void>) {
+export function group(title: string, fn: () => void) {
   groupTitle(title)
-
-  await fn()
+  fn()
 }
 
-export async function test(title: string, fn: () => Promise<void>) {
+export function test(title: string, fn: () => Promise<void> | void) {
   try {
-    await fn()
-    passed(title)
+    const maybePromise = fn()
+
+    if (maybePromise instanceof Promise) {
+      maybePromise
+        .then(() => {
+          passed(title)
+        })
+        .catch(error => {
+          notPassed(title, error)
+        })
+    } else {
+      passed(title)
+    }
   } catch (error) {
     notPassed(title, error)
   }

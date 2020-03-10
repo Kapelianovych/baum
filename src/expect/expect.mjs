@@ -1,7 +1,20 @@
 // @flow
 
 import BaumError from '../baum_error.mjs'
-import { equal } from '../utils/equality.mjs'
+import { match, equal } from './equality.mjs'
+import {
+  isString,
+  isNumber,
+  isBoolean,
+  isNaN,
+  isArray,
+  isSet,
+  isWeakSet,
+  isMap,
+  isWeakMap,
+  isNull,
+  isUndefined,
+} from './value_type.mjs'
 
 type ExpectChecks = {
   toEqual: (expected: mixed) => void,
@@ -10,6 +23,28 @@ type ExpectChecks = {
   toNotThrow: () => void,
   toMatch: (expected: string | RegExp) => void,
   toNotMatch: (expected: string | RegExp) => void,
+  isNumber: () => void,
+  isNotNumber: () => void,
+  isString: () => void,
+  isNotString: () => void,
+  isNaN: () => void,
+  isNotNaN: () => void,
+  isBoolean: () => void,
+  isNotBoolean: () => void,
+  isArray: () => void,
+  isNotArray: () => void,
+  isSet: () => void,
+  isNotSet: () => void,
+  isWeakSet: () => void,
+  isNotWeakSet: () => void,
+  isMap: () => void,
+  isNotMap: () => void,
+  isWeakMap: () => void,
+  isNotWeakMap: () => void,
+  isNull: () => void,
+  isNotNull: () => void,
+  isUndefined: () => void,
+  isNotUndefined: () => void,
   toBeResolved: () => Promise<ExpectChecks>,
   toBeRejected: (expectedError?: Error) => Promise<void>,
 }
@@ -78,36 +113,218 @@ export function expect(given: mixed): ExpectChecks {
       }
     },
     toMatch(expected: string | RegExp) {
-      if (typeof given !== 'string') {
-        throw new TypeError(
-          `Matched value must be of type "string", but given ${typeof given}`
-        )
-      }
-
-      const regexpedExpected =
-        typeof expected === 'string' ? new RegExp(expected) : expected
-
-      const isMatched = regexpedExpected.test(given)
+      const isMatched = match(given, expected)
       if (!isMatched) {
         throw new BaumError(
-          `"${given}" does not match to ${regexpedExpected.toString()}`
+          // $FlowFixMe - given is a string, otherwise match throws an error
+          `"${given}" does not match to ${expected.toString()}`
         )
       }
     },
     toNotMatch(expected: string | RegExp) {
-      if (typeof given !== 'string') {
-        throw new TypeError(
-          `Matched value must be of type "string", but given ${typeof given}`
-        )
-      }
-
-      const regexpedExpected =
-        typeof expected === 'string' ? new RegExp(expected) : expected
-
-      const isMatched = regexpedExpected.test(given)
+      const isMatched = match(given, expected)
       if (isMatched) {
         throw new BaumError(
-          `"${given}" match to ${regexpedExpected.toString()}`
+          // $FlowFixMe - given is a string, otherwise match throws an error
+          `"${given}" match to ${expected.toString()}`
+        )
+      }
+    },
+    isString() {
+      const isType = isString(given)
+      if (!isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a string, otherwise match throws an error
+          `"${given}" is not type of "string"`
+        )
+      }
+    },
+    isNotString() {
+      const isType = isString(given)
+      if (isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a string, otherwise match throws an error
+          `"${given}" is type of "string"`
+        )
+      }
+    },
+    isNumber() {
+      const isType = isNumber(given)
+      if (!isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a number, otherwise match throws an error
+          `"${given}" is not type of "number"`
+        )
+      }
+    },
+    isNotNumber() {
+      const isType = isNumber(given)
+      if (isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a number, otherwise match throws an error
+          `"${given}" is type of "number"`
+        )
+      }
+    },
+    isNaN() {
+      const isType = isNaN(given)
+      if (!isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a NaN, otherwise match throws an error
+          `"${given}" is not "NaN"`
+        )
+      }
+    },
+    isNotNaN() {
+      const isType = isNaN(given)
+      if (isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a NaN, otherwise match throws an error
+          `"${given}" is "NaN"`
+        )
+      }
+    },
+    isBoolean() {
+      const isType = isBoolean(given)
+      if (!isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a boolean, otherwise match throws an error
+          `"${given}" is not type of "boolean"`
+        )
+      }
+    },
+    isNotBoolean() {
+      const isType = isBoolean(given)
+      if (isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a boolean, otherwise match throws an error
+          `"${given}" is type of "boolean"`
+        )
+      }
+    },
+    isNull() {
+      const isType = isNull(given)
+      if (!isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a null, otherwise match throws an error
+          `"${given}" is not "null"`
+        )
+      }
+    },
+    isNotNull() {
+      const isType = isNull(given)
+      if (isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a null, otherwise match throws an error
+          `"${given}" is "null"`
+        )
+      }
+    },
+    isUndefined() {
+      const isType = isUndefined(given)
+      if (!isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a undefined, otherwise match throws an error
+          `"${given}" is not "undefined"`
+        )
+      }
+    },
+    isNotUndefined() {
+      const isType = isUndefined(given)
+      if (isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a undefined, otherwise match throws an error
+          `"${given}" is "undefined"`
+        )
+      }
+    },
+    isArray() {
+      const isType = isArray(given)
+      if (!isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a array, otherwise match throws an error
+          `"${given}" is not "array"`
+        )
+      }
+    },
+    isNotArray() {
+      const isType = isArray(given)
+      if (isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a array, otherwise match throws an error
+          `"${given}" is "array"`
+        )
+      }
+    },
+    isSet() {
+      const isType = isSet(given)
+      if (!isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a Set, otherwise match throws an error
+          `"${given}" is not "Set"`
+        )
+      }
+    },
+    isNotSet() {
+      const isType = isSet(given)
+      if (isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a Set, otherwise match throws an error
+          `"${given}" is "Set"`
+        )
+      }
+    },
+    isWeakSet() {
+      const isType = isWeakSet(given)
+      if (!isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a WeakSet, otherwise match throws an error
+          `"${given}" is not "WeakSet"`
+        )
+      }
+    },
+    isNotWeakSet() {
+      const isType = isWeakSet(given)
+      if (isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a WeakSet, otherwise match throws an error
+          `"${given}" is "WeakSet"`
+        )
+      }
+    },
+    isMap() {
+      const isType = isMap(given)
+      if (!isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a Map, otherwise match throws an error
+          `"${given}" is not "Map"`
+        )
+      }
+    },
+    isNotMap() {
+      const isType = isMap(given)
+      if (isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a Map, otherwise match throws an error
+          `"${given}" is "Map"`
+        )
+      }
+    },
+    isWeakMap() {
+      const isType = isWeakMap(given)
+      if (!isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a WeakMap, otherwise match throws an error
+          `"${given}" is not "WeakMap"`
+        )
+      }
+    },
+    isNotWeakMap() {
+      const isType = isWeakMap(given)
+      if (isType) {
+        throw new BaumError(
+          // $FlowFixMe - given is a WeakMap, otherwise match throws an error
+          `"${given}" is "WeakMap"`
         )
       }
     },
