@@ -9,6 +9,14 @@ group('Equality tests', () => {
     expect(1).toNotEqual(2)
   })
 
+  test('Test "toEqual()": () => {} === () => {}', () => {
+    expect(() => {}).toEqual(() => {})
+  })
+
+  test('Test "toNotEqual()": () => {} !== (parameter) => {}', () => {
+    expect(() => {}).toNotEqual((parameter) => {})
+  })
+
   test('Test "toEqual()": { a: 1 } === { a: 1 }', () => {
     expect({ a: 1 }).toEqual({ a: 1 })
   })

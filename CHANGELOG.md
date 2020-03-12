@@ -1,4 +1,8 @@
-# 0.3.1
+# 0.3.2
+
+- `toEqual` and `toNotEqual` now can compare functions.
+
+## 0.3.1
 
 - Add new methods for examining types:
 ```javascript

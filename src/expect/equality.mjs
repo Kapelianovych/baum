@@ -4,6 +4,10 @@ type ObjectType = {
   [string]: mixed,
 }
 
+function functionsEqual(f1: (...args: mixed[]) => mixed, f2: (...args: mixed[]) => mixed) {
+  return f1.toString() === f2.toString()
+}
+
 function objectsEqual(o1: ObjectType, o2: ObjectType): boolean {
   let isObjectsEqual = false
 
@@ -60,6 +64,9 @@ export function equal(v1: mixed, v2: mixed): boolean {
       case 'boolean':
       case 'undefined':
         return Object.is(v1, v2)
+      case 'function':
+        // $FlowFixMe
+        return functionsEqual(v1, v2)
       case 'object':
         if (Array.isArray(v1) && Array.isArray(v2)) {
           // $FlowFixMe
