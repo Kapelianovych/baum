@@ -51,6 +51,8 @@ declare module '@prostory/baum' {
     isNotPromise: () => void,
     isPlainObject: () => void,
     isNotPlainObject: () => void,
+    isRegExp: () => void,
+    isNotRegExp: () => void,
     toBeResolved: () => Promise<ExpectChecks>,
     toBeRejected: (expectedError?: Error) => Promise<void>,
   }

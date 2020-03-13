@@ -104,6 +104,14 @@ group('Test methods, that exemine types', () => {
     expect(1).isNotPromise()
   })
 
+  test('/a/ is RegExp', () => {
+    expect(/a/).isRegExp()
+  })
+
+  test('1 is not a RegExp', () => {
+    expect(1).isNotRegExp()
+  })
+
   test('{} is {}', () => {
     expect({}).isPlainObject()
   })

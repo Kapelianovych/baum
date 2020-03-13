@@ -192,6 +192,8 @@ All methods below test given value for their type (primitives and objects):
   - `isNotPromise: () => void`
   - `isPlainObject: () => void`
   - `isNotPlainObject: () => void`
+  - `isRegExp: () => void`
+  - `isNotRegExp: () => void`
 
   ```javascript
   import { group, test, expect } from '/node_modules/@prostory/baum/dist/index.mjs'

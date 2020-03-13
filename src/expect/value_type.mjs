@@ -1,57 +1,61 @@
 // @flow
 
-export function isString(given: mixed) {
+export function isString(given: mixed): boolean %checks {
   return typeof given === 'string'
 }
 
-export function isNumber(given: mixed) {
+export function isNumber(given: mixed): boolean %checks {
   return typeof given === 'number'
 }
 
-export function isNaN(given: mixed) {
+export function isNaN(given: mixed): boolean %checks {
   return Object.is(given, NaN)
 }
 
-export function isBoolean(given: mixed) {
+export function isBoolean(given: mixed): boolean %checks {
   return typeof given === 'boolean'
 }
 
-export function isNull(given: mixed) {
+export function isNull(given: mixed): boolean %checks {
   return Object.is(given, null)
 }
 
-export function isUndefined(given: mixed) {
+export function isUndefined(given: mixed): boolean %checks {
   return Object.is(given, undefined)
 }
 
-export function isFunction(given: mixed) {
+export function isFunction(given: mixed): boolean %checks {
   return typeof given === 'function'
 }
 
-export function isPromise(given: mixed) {
+export function isPromise(given: mixed): boolean %checks {
   return given instanceof Promise
 }
 
-export function isArray(given: mixed) {
+export function isArray(given: mixed): boolean %checks {
   return Array.isArray(given)
 }
 
-export function isSet(given: mixed) {
+export function isSet(given: mixed): boolean %checks {
   return given instanceof Set
 }
-export function isWeakSet(given: mixed) {
+export function isWeakSet(given: mixed): boolean %checks {
   return given instanceof WeakSet
 }
 
-export function isMap(given: mixed) {
+export function isMap(given: mixed): boolean %checks {
   return given instanceof Map
 }
 
-export function isWeakMap(given: mixed) {
+export function isWeakMap(given: mixed): boolean %checks {
   return given instanceof WeakMap
 }
 
-export function isPlainObject(given: mixed) {
+export function isRegExp(given: mixed): boolean %checks {
+  return given instanceof RegExp
+}
+
+export function isPlainObject(given: mixed): boolean %checks {
   return (
     typeof given === 'object' &&
     !isNull(given) &&
@@ -60,6 +64,7 @@ export function isPlainObject(given: mixed) {
     !isWeakSet(given) &&
     !isMap(given) &&
     !isWeakMap(given) &&
-    !isPromise(given)
+    !isPromise(given) &&
+    !isRegExp(given)
   )
 }

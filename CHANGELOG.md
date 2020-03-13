@@ -1,4 +1,9 @@
-# 0.3.2
+# 0.3.3
+
+- Add `isRegExp` and `isNotRegExp` methods.
+- Improved logging results of tests.
+
+## 0.3.2
 
 - `toEqual` and `toNotEqual` now can compare functions.
 

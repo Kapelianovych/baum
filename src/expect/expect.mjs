@@ -16,8 +16,10 @@ import {
   isUndefined,
   isFunction,
   isPromise,
-  isPlainObject
+  isPlainObject,
+  isRegExp,
 } from './value_type.mjs'
+import { coerce } from '../utils/coerce.mjs'
 
 type ExpectChecks = {
   toEqual: (expected: mixed) => void,
@@ -50,6 +52,8 @@ type ExpectChecks = {
   isNotUndefined: () => void,
   isFunction: () => void,
   isNotFunction: () => void,
+  isRegExp: () => void,
+  isNotRegExp: () => void,
   isPromise: () => void,
   isNotPromise: () => void,
   isPlainObject: () => void,
@@ -64,8 +68,7 @@ export function expect(given: mixed): ExpectChecks {
       const isEqual = equal(given, expected)
       if (!isEqual) {
         throw new BaumError(
-          // $FlowFixMe
-          `${given.toString()} is not equal to ${expected.toString()}`
+          `${coerce(given)} is not equal to ${coerce(expected)}`
         )
       }
     },
@@ -73,15 +76,14 @@ export function expect(given: mixed): ExpectChecks {
       const isEqual = equal(given, expected)
       if (isEqual) {
         throw new BaumError(
-          // $FlowFixMe
-          `${given.toString()} is equal to ${expected.toString()}`
+          `${coerce(given)} is equal to ${coerce(expected)}`
         )
       }
     },
     toThrow(expectedError?: Error) {
       if (typeof given !== 'function') {
         throw new TypeError(
-          `Tested parameter is not function type! Actual: ${typeof given}`
+          `Tested parameter is not function type! Actual: ${coerce(given)}`
         )
       }
 
@@ -110,7 +112,7 @@ export function expect(given: mixed): ExpectChecks {
     toNotThrow() {
       if (typeof given !== 'function') {
         throw new TypeError(
-          `Tested parameter is not function type! Given: ${typeof given}`
+          `Tested parameter is not function type! Given: ${coerce(given)}`
         )
       }
 
@@ -125,8 +127,7 @@ export function expect(given: mixed): ExpectChecks {
       const isMatched = match(given, expected)
       if (!isMatched) {
         throw new BaumError(
-          // $FlowFixMe - given is a string, otherwise match throws an error
-          `"${given}" does not match to ${expected.toString()}`
+          `"${coerce(given)}" does not match to ${coerce(expected)}`
         )
       }
     },
@@ -134,8 +135,7 @@ export function expect(given: mixed): ExpectChecks {
       const isMatched = match(given, expected)
       if (isMatched) {
         throw new BaumError(
-          // $FlowFixMe - given is a string, otherwise match throws an error
-          `"${given}" match to ${expected.toString()}`
+          `"${coerce(given)}" match to ${coerce(expected)}`
         )
       }
     },
@@ -143,8 +143,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isString(given)
       if (!isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a string, otherwise match throws an error
-          `"${given}" is not type of "string"`
+          `"${coerce(given)}" is not type of "string"`
         )
       }
     },
@@ -152,8 +151,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isString(given)
       if (isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a string, otherwise match throws an error
-          `"${given}" is type of "string"`
+          `"${coerce(given)}" is type of "string"`
         )
       }
     },
@@ -161,8 +159,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isNumber(given)
       if (!isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a number, otherwise match throws an error
-          `"${given}" is not type of "number"`
+          `"${coerce(given)}" is not type of "number"`
         )
       }
     },
@@ -170,8 +167,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isNumber(given)
       if (isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a number, otherwise match throws an error
-          `"${given}" is type of "number"`
+          `"${coerce(given)}" is type of "number"`
         )
       }
     },
@@ -179,8 +175,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isNaN(given)
       if (!isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a NaN, otherwise match throws an error
-          `"${given}" is not "NaN"`
+          `"${coerce(given)}" is not "NaN"`
         )
       }
     },
@@ -188,8 +183,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isNaN(given)
       if (isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a NaN, otherwise match throws an error
-          `"${given}" is "NaN"`
+          `"${coerce(given)}" is "NaN"`
         )
       }
     },
@@ -197,8 +191,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isBoolean(given)
       if (!isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a boolean, otherwise match throws an error
-          `"${given}" is not type of "boolean"`
+          `"${coerce(given)}" is not type of "boolean"`
         )
       }
     },
@@ -206,8 +199,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isBoolean(given)
       if (isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a boolean, otherwise match throws an error
-          `"${given}" is type of "boolean"`
+          `"${coerce(given)}" is type of "boolean"`
         )
       }
     },
@@ -215,8 +207,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isNull(given)
       if (!isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a null, otherwise match throws an error
-          `"${given}" is not "null"`
+          `"${coerce(given)}" is not "null"`
         )
       }
     },
@@ -224,8 +215,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isNull(given)
       if (isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a null, otherwise match throws an error
-          `"${given}" is "null"`
+          `"${coerce(given)}" is "null"`
         )
       }
     },
@@ -233,8 +223,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isUndefined(given)
       if (!isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a undefined, otherwise match throws an error
-          `"${given}" is not "undefined"`
+          `"${coerce(given)}" is not "undefined"`
         )
       }
     },
@@ -242,8 +231,23 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isUndefined(given)
       if (isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a undefined, otherwise match throws an error
-          `"${given}" is "undefined"`
+          `"${coerce(given)}" is "undefined"`
+        )
+      }
+    },
+    isRegExp() {
+      const isType = isRegExp(given)
+      if (!isType) {
+        throw new BaumError(
+          `"${typeof given}" is not "RegExp"`
+        )
+      }
+    },
+    isNotRegExp() {
+      const isType = isRegExp(given)
+      if (isType) {
+        throw new BaumError(
+          `"${typeof given}" is "RegExp"`
         )
       }
     },
@@ -251,8 +255,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isArray(given)
       if (!isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a array, otherwise match throws an error
-          `"${given}" is not "array"`
+          `"${coerce(given)}" is not "array"`
         )
       }
     },
@@ -260,8 +263,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isArray(given)
       if (isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a array, otherwise match throws an error
-          `"${given}" is "array"`
+          `"${coerce(given)}" is "array"`
         )
       }
     },
@@ -269,8 +271,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isSet(given)
       if (!isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a Set, otherwise match throws an error
-          `"${given}" is not "Set"`
+          `"${coerce(given)}" is not "Set"`
         )
       }
     },
@@ -278,8 +279,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isSet(given)
       if (isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a Set, otherwise match throws an error
-          `"${given}" is "Set"`
+          `"${coerce(given)}" is "Set"`
         )
       }
     },
@@ -305,8 +305,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isMap(given)
       if (!isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a Map, otherwise match throws an error
-          `"${given}" is not "Map"`
+          `"${coerce(given)}" is not "Map"`
         )
       }
     },
@@ -314,8 +313,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isMap(given)
       if (isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a Map, otherwise match throws an error
-          `"${given}" is "Map"`
+          `"${coerce(given)}" is "Map"`
         )
       }
     },
@@ -341,8 +339,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isFunction(given)
       if (!isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a function, otherwise match throws an error
-          `"${given}" is not a "function"`
+          `"${coerce(given)}" is not a "function"`
         )
       }
     },
@@ -350,8 +347,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isFunction(given)
       if (isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a function, otherwise match throws an error
-          `"${given}" is a "function"`
+          `"${coerce(given)}" is a "function"`
         )
       }
     },
@@ -359,8 +355,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isPlainObject(given)
       if (!isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a function, otherwise match throws an error
-          `"${given}" is not a "plain object"`
+          `"${coerce(given)}" is not a "plain object"`
         )
       }
     },
@@ -368,8 +363,7 @@ export function expect(given: mixed): ExpectChecks {
       const isType = isPlainObject(given)
       if (isType) {
         throw new BaumError(
-          // $FlowFixMe - given is a function, otherwise match throws an error
-          `"${given}" is a "plain object"`
+          `"${coerce(given)}" is a "plain object"`
         )
       }
     },
@@ -400,7 +394,7 @@ export function expect(given: mixed): ExpectChecks {
       let value = null
 
       try {
-        // $FlowFixMe - given may be Promise and function
+        // $FlowFixMe - given may be only Promise
         value = await given
       } catch (error) {
         throw new BaumError('"Promise" is not resolved!', error)
@@ -417,7 +411,7 @@ export function expect(given: mixed): ExpectChecks {
       let receivedError: ?Error = null
 
       try {
-        // $FlowFixMe - given may be Promise and function
+        // $FlowFixMe - given may be only Promise
         await given
       } catch (error) {
         if (error) {

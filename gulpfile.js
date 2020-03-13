@@ -11,6 +11,7 @@ function mjs() {
       keep_classnames: true,
       keep_fnames: true
     }))
+    .on('error', error => console.error(error))
     .pipe(dest('dist/'))
 }
 
