@@ -46,15 +46,11 @@ function coerceObjects(
 }
 
 function stringifyArray(value: mixed[]) {
-  return `[${value.map(item => coerce(item)).join(',')}]`
+  return `[ ${value.map(coerce).join(',')} ]`
 }
 
 function stringifySet(value: Set<mixed>) {
-  let stringifiedSet = 'Set( '
-  for (const val of value.values()) {
-    stringifiedSet += coerce(val)
-  }
-  return stringifiedSet + ' )'
+  return `Set( ${Array.from(value).map(coerce).join(', ')} )`
 }
 
 function stringifyMap(value: Map<mixed, mixed>) {
