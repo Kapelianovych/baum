@@ -120,7 +120,7 @@ This is the main function which performs testing your code. It accepts *value* t
   - `toBe(type: string): void` - checks given value if its match to provided(**type** parameter).
   You can check such types: `'string' | 'number' | 'NaN' | 'boolean' | 'null' | 'undefined' | 'function' | 'PlainObject' | 'Set' | 'Map' | 'RegExp' | 'WeakMap' | 'WeakSet' | 'Promise' | 'Array'`
 
-  ```javascript
+    ```javascript
     import { group, test, expect } from '/node_modules/@prostory/baum/dist/index.mjs'
 
     group('Group tests that check type of given value', () => {
@@ -136,7 +136,7 @@ This is the main function which performs testing your code. It accepts *value* t
 
   - `not` property. It contains methods that described above but they (except `toBeResolved` and `toBeRejected`) do opposite job.
 
-  ```javascript
+    ```javascript
     import { group, test, expect } from '/node_modules/@prostory/baum/dist/index.mjs'
 
     group('Group tests that check type of given value', () => {
