@@ -6,7 +6,7 @@ It is designed as set of ES modules and will not work in *commonjs* module syste
 
 Library exports three main functions:
 
-1. `group(title: string, fn: () => Promise<void>): Promise<void>`:
+1. `group(title: string, fn: () => void): void`:
 
 It is used for grouping relative tests together.
 
@@ -18,7 +18,7 @@ group('Group tests that check functions that works with numbers', () => {
 })
 ```
 
-2. `test(title: string, fn: () => Promise<void>): Promise<void>`:
+2. `test(title: string, fn: () => Promise<void> | void): void`:
 
 This function defines single test. It accepts *title* as test description and test function.
 
@@ -49,7 +49,7 @@ This is the main function which performs testing your code. It accepts *value* t
     })
     ```
 
-  - `toThrow(expectedError?: Error) => void`
+  - `toThrow(expectedError?: Error): void`
     checks if *value*(function only) throws an error. If *expectedError* is provided, received and expected errors are compated for equality.
 
     ```javascript
