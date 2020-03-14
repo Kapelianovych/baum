@@ -49,18 +49,6 @@ This is the main function which performs testing your code. It accepts *value* t
     })
     ```
 
-  - `toNotEqual(expected: mixed): void` - opposite version of previous method.
-
-  ```javascript
-  import { group, test, expect } from '/node_modules/@prostory/baum/dist/index.mjs'
-
-  group('Group tests that check number equality', () => {
-    test('1 + 1 must not equal to 3', () => {
-      expect(1 + 1).toNotEqual(3) // pass
-    })
-  })
-  ```
-
   - `toThrow(expectedError?: Error) => void`
     checks if *value*(function only) throws an error. If *expectedError* is provided, received and expected errors are compated for equality.
 
@@ -78,23 +66,6 @@ This is the main function which performs testing your code. It accepts *value* t
     })
     ```
 
-  - `toNotThrow(): void`
-    opposite version of previous method.
-
-    ```javascript
-    import { group, test, expect } from '/node_modules/@prostory/baum/dist/index.mjs'
-
-    group('Group tests that check functions', () => {
-      test('function must not throw an error', () => {
-        expect(() => throw new Error('Error')).toNotThrow() // do not pass
-      })
-
-      test('function must not throw an error', () => {
-        expect(() => 'Not error').toNotThrow() // pass
-      })
-    })
-    ```
-
   - `toMatch(expected: string | RegExp): void`
     this method checks if *value*(string) match to *expected*.
 
@@ -108,23 +79,6 @@ This is the main function which performs testing your code. It accepts *value* t
 
       test('"test " does match "/test/"', () => {
         expect('test ').toMatch(/test/) // pass
-      })
-    })
-    ```
-
-  - `toNotMatch(expected: string | RegExp): void`
-    this method checks if *value*(string) does not math to *expected*.
-
-    ```javascript
-    import { group, test, expect } from '/node_modules/@prostory/baum/dist/index.mjs'
-
-    group('Group tests that check functions', () => {
-      test('"test d" does not match "tested"', () => {
-        expect('test d').toNotMatch('tested') // pass
-      })
-
-      test('"test " does match "/^test^/"', () => {
-        expect('test ').toNotMatch(/^test$/) // pass
       })
     })
     ```
@@ -163,52 +117,49 @@ This is the main function which performs testing your code. It accepts *value* t
     })
     ```
 
-All methods below test given value for their type (primitives and objects):
-  - `isNumber: () => void`
-  - `isNotNumber: () => void`
-  - `isString: () => void`
-  - `isNotString: () => void`
-  - `isNaN: () => void`
-  - `isNotNaN: () => void`
-  - `isBoolean: () => void`
-  - `isNotBoolean: () => void`
-  - `isArray: () => void`
-  - `isNotArray: () => void`
-  - `isSet: () => void`
-  - `isNotSet: () => void`
-  - `isWeakSet: () => void`
-  - `isNotWeakSet: () => void`
-  - `isMap: () => void`
-  - `isNotMap: () => void`
-  - `isWeakMap: () => void`
-  - `isNotWeakMap: () => void`
-  - `isNull: () => void`
-  - `isNotNull: () => void`
-  - `isUndefined: () => void`
-  - `isNotUndefined: () => void`
-  - `isFunction: () => void`
-  - `isNotFunction: () => void`
-  - `isPromise: () => void`
-  - `isNotPromise: () => void`
-  - `isPlainObject: () => void`
-  - `isNotPlainObject: () => void`
-  - `isRegExp: () => void`
-  - `isNotRegExp: () => void`
+  - `toBe(type: string): void` - checks given value if its match to provided(**type** parameter).
+  You can check such types: `'string' | 'number' | 'NaN' | 'boolean' | 'null' | 'undefined' | 'function' | 'PlainObject' | 'Set' | 'Map' | 'RegExp' | 'WeakMap' | 'WeakSet' | 'Promise' | 'Array'`
 
   ```javascript
-  import { group, test, expect } from '/node_modules/@prostory/baum/dist/index.mjs'
+    import { group, test, expect } from '/node_modules/@prostory/baum/dist/index.mjs'
 
-    group('Group tests that check Promises', () => {
-      test('Given value must be type of Promise', () => {
-        expect(new Promise((resolve, reject) => {})).isPromise() // pass
+    group('Group tests that check type of given value', () => {
+      test('1 is number', () => {
+        expect(1).toBe('number') // pass
       })
 
-      test('Given value must not be type of Promise', () => {
-        expect({}).isNotPromise() // pass
+      test('Array to be Array type', () => {
+        expect([7, 'd']).toBe('Array') // pass
       })
     })
-  ```
+    ```
 
-> Note - for testing `Promises` you must `await` Promise that returns by of `toBeResolved()` and `toBeRejected()` or return it, in order to tests finish properly.
+  - `not` property. It contains methods that described above but they (except `toBeResolved` and `toBeRejected`) do opposite job.
+
+  ```javascript
+    import { group, test, expect } from '/node_modules/@prostory/baum/dist/index.mjs'
+
+    group('Group tests that check type of given value', () => {
+      test('1 is not Set', () => {
+        expect(1).not.toBe('Set') // pass
+      })
+
+      test('"Array" match not "Arrau"', () => {
+        expect('Array').not.toMatch('Arrau') // pass
+      })
+
+      // You can check if function does not throw error at all or
+      // function may throw error except one checked against.
+      test('Function is not throwing an error at all', () => {
+        expect(() => {}).not.toThrow() // pass
+      })
+
+      test('Function is not throwing specific error', () => {
+        expect(() => { throw new Error('Error') }).not.toThrow(new Error('Another error')) // pass
+      })
+    })
+    ```
+
+> Note - for testing `Promises` you must `await` Promise that returns by of `toBeResolved()` and `toBeRejected()` or return it, in order to tests finish properly. This methods do the same in `not` property also.
 
 With ❤️ to Baum

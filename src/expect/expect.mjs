@@ -21,369 +21,43 @@ import {
 } from './value_type.mjs'
 import { coerce } from '../utils/coerce.mjs'
 
-type ExpectChecks = {
+type ExpectRightChecks = {
   toEqual: (expected: mixed) => void,
-  toNotEqual: (expected: mixed) => void,
   toThrow: (expectedError?: Error) => void,
-  toNotThrow: () => void,
   toMatch: (expected: string | RegExp) => void,
-  toNotMatch: (expected: string | RegExp) => void,
-  isNumber: () => void,
-  isNotNumber: () => void,
-  isString: () => void,
-  isNotString: () => void,
-  isNaN: () => void,
-  isNotNaN: () => void,
-  isBoolean: () => void,
-  isNotBoolean: () => void,
-  isArray: () => void,
-  isNotArray: () => void,
-  isSet: () => void,
-  isNotSet: () => void,
-  isWeakSet: () => void,
-  isNotWeakSet: () => void,
-  isMap: () => void,
-  isNotMap: () => void,
-  isWeakMap: () => void,
-  isNotWeakMap: () => void,
-  isNull: () => void,
-  isNotNull: () => void,
-  isUndefined: () => void,
-  isNotUndefined: () => void,
-  isFunction: () => void,
-  isNotFunction: () => void,
-  isRegExp: () => void,
-  isNotRegExp: () => void,
-  isPromise: () => void,
-  isNotPromise: () => void,
-  isPlainObject: () => void,
-  isNotPlainObject: () => void,
+  toBe: (
+    type: 'string'
+      | 'number'
+      | 'NaN'
+      | 'boolean'
+      | 'null'
+      | 'undefined'
+      | 'function'
+      | 'PlainObject'
+      | 'Set'
+      | 'Map'
+      | 'RegExp'
+      | 'WeakMap'
+      | 'WeakSet'
+      | 'Promise'
+      | 'Array'
+  ) => void,
+}
+
+type ExpectChecks = {
+  ...ExpectRightChecks,
+  not: {
+    ...ExpectRightChecks,
+  },
   toBeResolved: () => Promise<ExpectChecks>,
   toBeRejected: (expectedError?: Error) => Promise<void>,
 }
 
 export function expect(given: mixed): ExpectChecks {
   return {
-    toEqual(expected: mixed) {
-      const isEqual = equal(given, expected)
-      if (!isEqual) {
-        throw new BaumError(
-          `${coerce(given)} is not equal to ${coerce(expected)}`
-        )
-      }
-    },
-    toNotEqual(expected: mixed) {
-      const isEqual = equal(given, expected)
-      if (isEqual) {
-        throw new BaumError(
-          `${coerce(given)} is equal to ${coerce(expected)}`
-        )
-      }
-    },
-    toThrow(expectedError?: Error) {
-      if (typeof given !== 'function') {
-        throw new TypeError(
-          `Tested parameter is not function type! Actual: ${coerce(given)}`
-        )
-      }
-
-      let receivedError: ?Error = null
-      try {
-        // $FlowFixMe - given may be only function
-        given()
-      } catch (error) {
-        if (error) {
-          receivedError = error
-        }
-      }
-      if (!receivedError) {
-        throw new BaumError(`"${given.name}" do not throw an error!`)
-      } else if (expectedError) {
-        if (
-          receivedError.name !== expectedError.name ||
-          receivedError.message !== expectedError.message
-        ) {
-          throw new BaumError(`"${given.name}" throws error that do not equal to expected
-        Given name: ${receivedError.name} - expected name: ${expectedError.name}
-          Given message: ${receivedError.message} - expected message: ${expectedError.message}`)
-        }
-      }
-    },
-    toNotThrow() {
-      if (typeof given !== 'function') {
-        throw new TypeError(
-          `Tested parameter is not function type! Given: ${coerce(given)}`
-        )
-      }
-
-      try {
-        // $FlowFixMe - given may be only function
-        given()
-      } catch (error) {
-        throw new BaumError(`"${given.name}" throw an error!`, error)
-      }
-    },
-    toMatch(expected: string | RegExp) {
-      const isMatched = match(given, expected)
-      if (!isMatched) {
-        throw new BaumError(
-          `"${coerce(given)}" does not match to ${coerce(expected)}`
-        )
-      }
-    },
-    toNotMatch(expected: string | RegExp) {
-      const isMatched = match(given, expected)
-      if (isMatched) {
-        throw new BaumError(
-          `"${coerce(given)}" match to ${coerce(expected)}`
-        )
-      }
-    },
-    isString() {
-      const isType = isString(given)
-      if (!isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is not type of "string"`
-        )
-      }
-    },
-    isNotString() {
-      const isType = isString(given)
-      if (isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is type of "string"`
-        )
-      }
-    },
-    isNumber() {
-      const isType = isNumber(given)
-      if (!isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is not type of "number"`
-        )
-      }
-    },
-    isNotNumber() {
-      const isType = isNumber(given)
-      if (isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is type of "number"`
-        )
-      }
-    },
-    isNaN() {
-      const isType = isNaN(given)
-      if (!isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is not "NaN"`
-        )
-      }
-    },
-    isNotNaN() {
-      const isType = isNaN(given)
-      if (isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is "NaN"`
-        )
-      }
-    },
-    isBoolean() {
-      const isType = isBoolean(given)
-      if (!isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is not type of "boolean"`
-        )
-      }
-    },
-    isNotBoolean() {
-      const isType = isBoolean(given)
-      if (isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is type of "boolean"`
-        )
-      }
-    },
-    isNull() {
-      const isType = isNull(given)
-      if (!isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is not "null"`
-        )
-      }
-    },
-    isNotNull() {
-      const isType = isNull(given)
-      if (isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is "null"`
-        )
-      }
-    },
-    isUndefined() {
-      const isType = isUndefined(given)
-      if (!isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is not "undefined"`
-        )
-      }
-    },
-    isNotUndefined() {
-      const isType = isUndefined(given)
-      if (isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is "undefined"`
-        )
-      }
-    },
-    isRegExp() {
-      const isType = isRegExp(given)
-      if (!isType) {
-        throw new BaumError(
-          `"${typeof given}" is not "RegExp"`
-        )
-      }
-    },
-    isNotRegExp() {
-      const isType = isRegExp(given)
-      if (isType) {
-        throw new BaumError(
-          `"${typeof given}" is "RegExp"`
-        )
-      }
-    },
-    isArray() {
-      const isType = isArray(given)
-      if (!isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is not "array"`
-        )
-      }
-    },
-    isNotArray() {
-      const isType = isArray(given)
-      if (isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is "array"`
-        )
-      }
-    },
-    isSet() {
-      const isType = isSet(given)
-      if (!isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is not "Set"`
-        )
-      }
-    },
-    isNotSet() {
-      const isType = isSet(given)
-      if (isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is "Set"`
-        )
-      }
-    },
-    isWeakSet() {
-      const isType = isWeakSet(given)
-      if (!isType) {
-        throw new BaumError(
-          // $FlowFixMe - given is a WeakSet, otherwise match throws an error
-          `"${given}" is not "WeakSet"`
-        )
-      }
-    },
-    isNotWeakSet() {
-      const isType = isWeakSet(given)
-      if (isType) {
-        throw new BaumError(
-          // $FlowFixMe - given is a WeakSet, otherwise match throws an error
-          `"${given}" is "WeakSet"`
-        )
-      }
-    },
-    isMap() {
-      const isType = isMap(given)
-      if (!isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is not "Map"`
-        )
-      }
-    },
-    isNotMap() {
-      const isType = isMap(given)
-      if (isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is "Map"`
-        )
-      }
-    },
-    isWeakMap() {
-      const isType = isWeakMap(given)
-      if (!isType) {
-        throw new BaumError(
-          // $FlowFixMe - given is a WeakMap, otherwise match throws an error
-          `"${given}" is not "WeakMap"`
-        )
-      }
-    },
-    isNotWeakMap() {
-      const isType = isWeakMap(given)
-      if (isType) {
-        throw new BaumError(
-          // $FlowFixMe - given is a WeakMap, otherwise match throws an error
-          `"${given}" is "WeakMap"`
-        )
-      }
-    },
-    isFunction() {
-      const isType = isFunction(given)
-      if (!isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is not a "function"`
-        )
-      }
-    },
-    isNotFunction() {
-      const isType = isFunction(given)
-      if (isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is a "function"`
-        )
-      }
-    },
-    isPlainObject() {
-      const isType = isPlainObject(given)
-      if (!isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is not a "plain object"`
-        )
-      }
-    },
-    isNotPlainObject() {
-      const isType = isPlainObject(given)
-      if (isType) {
-        throw new BaumError(
-          `"${coerce(given)}" is a "plain object"`
-        )
-      }
-    },
-    isPromise() {
-      const isType = isPromise(given)
-      if (!isType) {
-        throw new BaumError(
-          // $FlowFixMe - given is a function, otherwise match throws an error
-          `"${given}" is not a "Promise"`
-        )
-      }
-    },
-    isNotPromise() {
-      const isType = isPromise(given)
-      if (isType) {
-        throw new BaumError(
-          // $FlowFixMe - given is a function, otherwise match throws an error
-          `"${given}" is a "Promise"`
-        )
-      }
+    ...checks(given, false),
+    not: {
+      ...checks(given, true),
     },
     async toBeResolved() {
       if (!(given instanceof Promise)) {
@@ -432,4 +106,231 @@ export function expect(given: mixed): ExpectChecks {
       }
     },
   }
+}
+
+function checks(given: mixed, not: boolean) {
+  let testPassed = false
+
+  return {
+    toEqual(expected: mixed) {
+      testPassed = equal(given, expected)
+      if (needToThrowError(testPassed, not)) {
+        throw new BaumError(
+          `${coerce(given)} is ${not ? '' : 'not'} equal to ${coerce(expected)}`
+        )
+      }
+    },
+    toThrow(expectedError?: Error) {
+      if (typeof given !== 'function') {
+        throw new TypeError(
+          `Tested parameter is not function type! Actual: ${coerce(given)}`
+        )
+      }
+
+      let receivedError: ?Error = null
+
+      try {
+        // $FlowFixMe - given may be only function
+        given()
+      } catch (error) {
+        if (error) {
+          receivedError = error
+        }
+      }
+
+      testPassed = !!receivedError
+
+      if (!not && !needToThrowError(testPassed, not)) {
+        if (
+          receivedError &&
+          expectedError &&
+          receivedError.name !== expectedError.name &&
+            receivedError.message !== expectedError.message
+        ) {
+          throw new BaumError(`"${given.name}" throws error that ${
+            not ? '' : 'do not'
+          } equal to expected
+        Given name: ${receivedError.name} - expected name: ${expectedError.name}
+          Given message: ${receivedError.message} - expected message: ${
+            expectedError.message
+          }`)
+        }
+      } else if (not) {
+        if (
+          receivedError &&
+          expectedError &&
+          receivedError.name !== expectedError.name &&
+            receivedError.message !== expectedError.message
+        ) {
+          throw new BaumError(`"${given.name ||
+            'function'}" throws error that ${
+            not ? '' : 'do not'
+          } equal to expected
+        Given name: ${receivedError.name} - expected name: ${expectedError.name}
+          Given message: ${receivedError.message} - expected message: ${
+            expectedError.message
+          }`)
+        } else if (!receivedError && expectedError) {
+          throw new BaumError(`"${given.name || 'function'}" must not throws "${
+            expectedError.name
+          }: ${expectedError.message}" error,
+          but it is not throws any errors.`)
+        } else if (receivedError && !expectedError) {
+          throw new BaumError(`"${given.name}" throw an error!`)
+        }
+      } else {
+        throw new BaumError(
+          `"${given.name} ${not ? '' : 'does not'} throw an error!`
+        )
+      }
+    },
+    toBe(
+      type: 'string'
+        | 'number'
+        | 'NaN'
+        | 'boolean'
+        | 'null'
+        | 'undefined'
+        | 'function'
+        | 'PlainObject'
+        | 'Set'
+        | 'Map'
+        | 'RegExp'
+        | 'WeakMap'
+        | 'WeakSet'
+        | 'Promise'
+        | 'Array'
+    ) {
+      switch (type) {
+        case 'string':
+          testPassed = isString(given)
+          break
+        case 'number':
+          testPassed = isNumber(given)
+          break
+        case 'NaN':
+          testPassed = isNaN(given)
+          break
+        case 'boolean':
+          testPassed = isBoolean(given)
+          break
+        case 'null':
+          testPassed = isNull(given)
+          break
+        case 'undefined':
+          testPassed = isUndefined(given)
+          break
+        case 'function':
+          testPassed = isFunction(given)
+          break
+        case 'PlainObject':
+          testPassed = isPlainObject(given)
+          break
+        case 'Set':
+          testPassed = isSet(given)
+          break
+        case 'WeakSet':
+          testPassed = isWeakSet(given)
+          break
+        case 'Map':
+          testPassed = isMap(given)
+          break
+        case 'WeakMap':
+          testPassed = isWeakMap(given)
+          break
+        case 'RegExp':
+          testPassed = isRegExp(given)
+          break
+        case 'Promise':
+          testPassed = isPromise(given)
+          break
+        case 'Array':
+          testPassed = isArray(given)
+          break
+        default:
+          console.warn(`Unknown type: ${type}`)
+      }
+
+      if (needToThrowError(testPassed, not)) {
+        switch (type) {
+          case 'string':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "string"`
+            )
+          case 'number':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "number"`
+            )
+          case 'NaN':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "NaN"`
+            )
+          case 'boolean':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "boolean"`
+            )
+          case 'null':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "null"`
+            )
+          case 'undefined':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "undefined"`
+            )
+          case 'function':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "function"`
+            )
+          case 'PlainObject':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "plain object"`
+            )
+          case 'Set':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "Set"`
+            )
+          case 'WeakSet':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "WeakSet"`
+            )
+          case 'Map':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "Map"`
+            )
+          case 'WeakMap':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "WeakMap"`
+            )
+          case 'RegExp':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "RegExp"`
+            )
+          case 'Promise':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "Promise"`
+            )
+          case 'Array':
+            throw new BaumError(
+              `"${coerce(given)}" is ${not ? '' : 'not'} type of "Array"`
+            )
+          default:
+            console.warn(`Unknown type: ${type}`)
+        }
+      }
+    },
+    toMatch(expected: string | RegExp) {
+      testPassed = match(given, expected)
+      if (needToThrowError(testPassed, not)) {
+        throw new BaumError(
+          `"${coerce(given)}" does ${not ? '' : 'not'} match to ${coerce(
+            expected
+          )}`
+        )
+      }
+    },
+  }
+}
+
+function needToThrowError(testPassed: boolean, not: boolean) {
+  return not ? testPassed : !testPassed
 }

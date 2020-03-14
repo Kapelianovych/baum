@@ -9,7 +9,10 @@ group('Test functions', () => {
     expect(() => { throw new Error('Error') }).toThrow(new Error('Error'))
   })
 
-  test('Test "toNotThrow()": function is not throw an error', () => {
-    expect(() => {}).toNotThrow()
+  test('Test "not.toThrow()": function is not throw an error', () => {
+    expect(() => {}).not.toThrow()
+  })
+  test('Test "not.toThrow()": function is not throw Another error', () => {
+    expect(() => { throw new Error('Error') }).not.toThrow(new Error('Another'))
   })
 })

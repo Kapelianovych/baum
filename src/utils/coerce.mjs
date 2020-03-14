@@ -23,7 +23,7 @@ export function coerce(value: mixed): string {
       return coerceObjects(value)
     default:
       // $FlowFixMe
-      return `${value}`
+      return value.toString ? value.toString() : `${value}`
   }
 }
 
@@ -46,7 +46,7 @@ function coerceObjects(
 }
 
 function stringifyArray(value: mixed[]) {
-  return `[ ${value.map(coerce).join(',')} ]`
+  return `[ ${value.map(coerce).join(', ')} ]`
 }
 
 function stringifySet(value: Set<mixed>) {

@@ -1,4 +1,12 @@
-# 0.3.3
+# 0.4.0
+
+**Breaking chages!**
+- Add `not` property to returning by `expect` function object, that contains reversed tests (`toMatch()` => `not.toMatch()` etc).
+- Remove all `toNot...` and `isNot...` methods.
+- Replace all `is...` methods with new `toBe(type: string)` method.
+- Fix logging errors and chage `Array` log.
+
+## 0.3.3
 
 - Add `isRegExp` and `isNotRegExp` methods.
 - Improved logging results of tests.
