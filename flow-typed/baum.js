@@ -37,6 +37,7 @@ declare module '@prostory/baum' {
         | 'Promise'
         | 'Array'
     ) => void,
+    toBeTruthy: () => void,
   }
 
   declare type ExpectChecks = {

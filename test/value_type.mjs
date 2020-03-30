@@ -119,4 +119,36 @@ group('Test methods, that exemine types', () => {
   test('1 is not a {}', () => {
     expect(1).not.toBe('PlainObject')
   })
+
+  test('Non zero number is truthy value', () => {
+    expect(5).toBeTruthy()
+  })
+
+  test('Object is truthy value', () => {
+    expect({}).toBeTruthy()
+  })
+
+  test('Non empty string is truthy value', () => {
+    expect('string').toBeTruthy()
+  })
+
+  test('Empty string is falsy value', () => {
+    expect('').not.toBeTruthy()
+  })
+
+  test('Zero is falsy value', () => {
+    expect(0).not.toBeTruthy()
+  })
+
+  test('Null is falsy value', () => {
+    expect(null).not.toBeTruthy()
+  })
+
+  test('Undefined is falsy value', () => {
+    expect(undefined).not.toBeTruthy()
+  })
+
+  test('NaN is falsy value', () => {
+    expect(NaN).not.toBeTruthy()
+  })
 })

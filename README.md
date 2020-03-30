@@ -134,6 +134,21 @@ This is the main function which performs testing your code. It accepts *value* t
     })
     ```
 
+  - `toBeTruthy(): void` - checks given value if it is truthy.
+    ```javascript
+    import { group, test, expect } from '/node_modules/@prostory/baum/dist/index.mjs'
+
+    group('Group tests that check type of given value', () => {
+      test('1 is truthy value', () => {
+        expect(1).toBeTruthy() // pass
+      })
+
+      test('0 is falsy value', () => {
+        expect(0).not.toBeTruthy() // pass
+      })
+    })
+    ```
+
   - `not` property. It contains methods that described above but they (except `toBeResolved` and `toBeRejected`) do opposite job.
 
     ```javascript

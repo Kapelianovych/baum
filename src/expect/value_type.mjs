@@ -68,3 +68,7 @@ export function isPlainObject(given: mixed): boolean %checks {
     !isRegExp(given)
   )
 }
+
+export function isTruthy(given: mixed): boolean %checks {
+  return !!given
+}

@@ -18,6 +18,7 @@ import {
   isPromise,
   isPlainObject,
   isRegExp,
+  isTruthy
 } from './value_type.mjs'
 import { coerce } from '../utils/coerce.mjs'
 
@@ -316,6 +317,13 @@ function checks(given: mixed, not: boolean) {
           default:
             console.warn(`Unknown type: ${type}`)
         }
+      }
+    },
+    toBeTruthy() {
+      const testPassed = isTruthy(given)
+
+      if (needToThrowError(testPassed, not)) {
+        throw new BaumError(`"${coerce(given)}" is ${not ? '' : 'not'} truthy.`)
       }
     },
     toMatch(expected: string | RegExp) {

@@ -1,4 +1,8 @@
-# 0.4.0
+# 0.4.1
+
+- Add `toBeTruthy()` method.
+
+## 0.4.0
 
 **Breaking chages!**
 - Add `not` property to returning by `expect` function object, that contains reversed tests (`toMatch()` => `not.toMatch()` etc).
