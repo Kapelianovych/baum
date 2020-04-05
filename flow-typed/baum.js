@@ -7,12 +7,12 @@ declare module '@prostory/baum' {
     toString(): string;
   }
 
-  declare export function group(title: string, fn: () => void): void
+  declare export function group(title: string, fn: () => Promise<void> | void): Promise<void>
 
   declare export function test(
     title: string,
     fn: () => Promise<void> | void
-  ): void
+  ): Promise<void>
 
   declare export function expect(given: mixed): ExpectChecks
 
