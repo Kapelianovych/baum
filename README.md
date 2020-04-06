@@ -2,11 +2,17 @@
 
 It is designed as set of ES modules and will not work in *commonjs* module system.
 
+## Installing
+
+```sh
+$ npm i -D @prostory/baum
+```
+
 ## API
 
 Library exports three main functions:
 
-1. `group(title: string, fn: () => void): void`:
+1. `group(title: string, fn: () => Promise<void> | void): Promise<void>`:
 
 It is used for grouping relative tests together.
 
@@ -18,7 +24,7 @@ group('Group tests that check functions that works with numbers', () => {
 })
 ```
 
-2. `test(title: string, fn: () => Promise<void> | void): void`:
+2. `test(title: string, fn: () => Promise<void> | void): Promise<void>`:
 
 This function defines single test. It accepts *title* as test description and test function.
 
@@ -28,6 +34,21 @@ import { group, test } from '/node_modules/@prostory/baum/dist/index.mjs'
 group('Group tests that check number equality', () => {
   test('1 + 1 must equal to 2', () => {
     // Test desctiption here
+  })
+})
+```
+
+> Note: if you pass to `test` syncronous function than you do not need to *await* `test` function. Otherwise you must and the whole function that contains tests must also be asyncronous also. But if `group` function have not asyncronous tests at all you can omit `async/await` keywords.
+
+```javascript
+group('Example tests', async () => {
+  test('Syncronous test', () => {
+    expect(1).toEqual(1)
+  })
+
+  await test('Asyncronous test', async () => {
+    const number = await expect(Promise.resolve(1)).toBeResolved()
+    expect(number).toEqual(1)
   })
 })
 ```

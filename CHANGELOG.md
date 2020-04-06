@@ -1,10 +1,17 @@
-# 0.4.1
+# 0.5.0
+
+- Remake `group` and `test` functions asyncrounous. They may accept asyncronous functions now.
+- Rewrite logging results logic.
+- Add collector layer for properly structuring test results.
+- Update README.
+
+## 0.4.1
 
 - Add `toBeTruthy()` method.
 
 ## 0.4.0
 
-**Breaking chages!**
+**Breaking changes!**
 - Add `not` property to returning by `expect` function object, that contains reversed tests (`toMatch()` => `not.toMatch()` etc).
 - Remove all `toNot...` and `isNot...` methods.
 - Replace all `is...` methods with new `toBe(type: string)` method.
