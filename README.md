@@ -14,7 +14,7 @@ Library exports three main functions:
 
 1. `group(title: string, fn: () => (TestResult | Promise<TestResult>)[]): Promise<void>`:
 
-It is used for grouping relative tests together. All `test` functions must be inside of `group` function.
+It is used for grouping relative tests together. All `test` functions must be inside of `group` function. They are executing in order of defining.
 
 ```javascript
 import { group } from '/node_modules/@prostory/baum/dist/index.mjs'
