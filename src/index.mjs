@@ -1,26 +1,24 @@
 // @flow
 
-import Collector from './collector.mjs'
+import type { TestResult } from './loggers/logger.mjs'
 import Logger from './loggers/logger.mjs'
 export { expect } from './expect/expect.mjs'
 
-const defaultCollector = new Collector()
 const defaultLogger = new Logger()
 
-export async function group(title: string, fn: () => Promise<void> | void) {
-  defaultCollector.title = title
+export async function group(
+  groupTitle: string,
+  fn: () => (TestResult | Promise<TestResult>)[]
+) {
+  const results = await Promise.all(fn())
 
-  const maybePromise = fn()
-
-  if (maybePromise instanceof Promise) {
-    await maybePromise
-  }
-
-  defaultLogger.log(defaultCollector.results)
-  defaultCollector.remove(title)
+  defaultLogger.log(groupTitle, results)
 }
 
-export async function test(title: string, fn: () => Promise<void> | void) {
+export async function test(
+  title: string,
+  fn: () => Promise<void> | void
+): Promise<TestResult> {
   try {
     const maybePromise = fn()
 
@@ -28,8 +26,14 @@ export async function test(title: string, fn: () => Promise<void> | void) {
       await maybePromise
     }
 
-    defaultCollector.passed(title, true)
+    return {
+      test: title,
+      passed: true,
+    }
   } catch (error) {
-    defaultCollector.passed(title, error)
+    return {
+      test: title,
+      passed: error,
+    }
   }
 }

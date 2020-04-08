@@ -1,6 +1,11 @@
 // @flow
 
-import type { TestResults } from '../collector.mjs'
+import type BaumError from '../baum_error.mjs'
+
+export type TestResult = {
+  test: string,
+  passed: true | BaumError,
+}
 
 /**
  * Shows results of tests to user.
@@ -11,19 +16,17 @@ export default class Logger {
    * Shows to user results of tests passing.
    * This is the main method.
    */
-  log(results: TestResults) {
-    for (const groupTitle in results) {
-      console.warn(`----- ${groupTitle} -----`)
+  log(groupTitle: string, results: TestResult[]) {
+    console.warn(`----- ${groupTitle} -----`)
 
-      for (const [title, result] of results[groupTitle].entries()) {
-        if (typeof result === 'boolean') {
-          console.log(`   +  Test: "${title}" successfully passed!`)
-        } else {
-          console.error(`   -  Test: "${title}" has errors!
-          Error: ${result.toString()}
-          `)
-        }
+    results.forEach(({ test, passed }) => {
+      if (typeof passed === 'boolean') {
+        console.log(`   +  Test: "${test}" successfully passed!`)
+      } else {
+        console.error(`   -  Test: "${test}" has errors!
+        Error: ${passed.toString()}
+        `)
       }
-    }
+    })
   }
 }

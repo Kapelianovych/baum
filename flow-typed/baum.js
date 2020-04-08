@@ -7,12 +7,15 @@ declare module '@prostory/baum' {
     toString(): string;
   }
 
-  declare export function group(title: string, fn: () => Promise<void> | void): Promise<void>
+  declare export function group(
+    groupTitle: string,
+    fn: () => (TestResult | Promise<TestResult>)[]
+  ): Promise<void>
 
   declare export function test(
     title: string,
     fn: () => Promise<void> | void
-  ): Promise<void>
+  ): Promise<TestResult> | TestResult
 
   declare export function expect(given: mixed): ExpectChecks
 
@@ -47,5 +50,10 @@ declare module '@prostory/baum' {
     },
     toBeResolved: () => Promise<ExpectChecks>,
     toBeRejected: (expectedError?: Error) => Promise<void>,
+  }
+
+  declare type TestResult = {
+    test: string,
+    passed: true | BaumError,
   }
 }

@@ -1,4 +1,12 @@
-# 0.5.0
+# 0.6.0
+
+**Breaking changes!**
+- Remove collector layer.
+- *fn* parameter of `group` function now returns array of `test` functions results.
+- `test` function returns an object status about test now.
+- Update README.
+
+## 0.5.0
 
 - Remake `group` and `test` functions asyncrounous. They may accept asyncronous functions now.
 - Rewrite logging results logic.
