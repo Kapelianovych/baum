@@ -1,4 +1,9 @@
-# 0.6.0
+# 0.7.0
+
+- Change internal behavior of `test` and `group` functions (signatures do not change).
+- Add **hooks** parameter to `group` function.
+
+## 0.6.0
 
 **Breaking changes!**
 - Remove collector layer.

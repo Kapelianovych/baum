@@ -9,15 +9,28 @@ declare module '@prostory/baum' {
 
   declare export function group(
     groupTitle: string,
-    fn: () => (TestResult | Promise<TestResult>)[]
+    fn: () => TestObject[],
+    hooks?: TestHooks,
   ): Promise<void>
 
   declare export function test(
     title: string,
     fn: () => Promise<void> | void
-  ): Promise<TestResult> | TestResult
+  ): TestObject
 
   declare export function expect(given: mixed): ExpectChecks
+
+  declare type TestObject = {|
+    title: string,
+    fn: () => Promise<void> | void
+  |}
+
+  declare type TestHooks = {
+    beforeAll?: () => void,
+    afterAll?: () => void,
+    beforeEach?: () => void,
+    afterEach?: () => void,
+  }
 
   declare type ExpectRightChecks = {
     toEqual: (expected: mixed) => void,

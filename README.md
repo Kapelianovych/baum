@@ -12,9 +12,17 @@ $ npm i -D @prostory/baum
 
 Library exports three main functions:
 
-1. `group(title: string, fn: () => (TestResult | Promise<TestResult>)[]): Promise<void>`:
+1. `group(title: string, fn: () => TestObject[], hooks?: TestHooks): Promise<void>`:
+
 
 It is used for grouping relative tests together. All `test` functions must be inside of `group` function. They are executing in order of defining.
+
+**hooks** is an object which can have four method:
+
+  1. `beforeAll: () => void` - executes before all tests in `group`.
+  2. `beforeEach: () => void` - executes before each test in `group`.
+  3. `afterEach: () => void` - executes after each test in `group`.
+  4. `afterAll: () => void` - executes after all tests in `group`.
 
 ```javascript
 import { group } from '/node_modules/@prostory/baum/dist/index.mjs'
@@ -26,9 +34,9 @@ group('Group tests that check functions that works with numbers', () => {
 })
 ```
 
-2. `test(title: string, fn: () => Promise<void> | void): Promise<TestResult> | TestResult`:
+2. `test(title: string, fn: () => Promise<void> | void): TestObject`:
 
-This function defines single test. It accepts *title* as test description and test function. Although it can return *Promise* you need never *await* `test` function.
+This function defines single test. It accepts *title* as test description and test function.
 
 ```javascript
 import { group, test } from '/node_modules/@prostory/baum/dist/index.mjs'
