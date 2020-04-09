@@ -14,7 +14,6 @@ Library exports three main functions:
 
 1. `group(title: string, fn: () => TestObject[], hooks?: TestHooks): Promise<void>`:
 
-
 It is used for grouping relative tests together. All `test` functions must be inside of `group` function. They are executing in order of defining.
 
 **hooks** is an object which can have four method:
