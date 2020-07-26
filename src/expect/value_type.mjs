@@ -58,14 +58,14 @@ export function isRegExp(given: mixed): boolean %checks {
 export function isPlainObject(given: mixed): boolean %checks {
   return (
     typeof given === 'object' &&
+    !isSet(given) &&
+    !isMap(given) &&
     !isNull(given) &&
     !isArray(given) &&
-    !isSet(given) &&
+    !isRegExp(given) &&
     !isWeakSet(given) &&
-    !isMap(given) &&
     !isWeakMap(given) &&
-    !isPromise(given) &&
-    !isRegExp(given)
+    !isPromise(given)
   )
 }
 

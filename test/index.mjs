@@ -1,6 +1,5 @@
 import './value_type.mjs'
 import './equality.mjs'
 import './functions.mjs'
-import './coerce.mjs'
 import './promises.mjs'
 import './test_hooks.mjs'

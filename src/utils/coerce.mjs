@@ -1,10 +1,10 @@
 // @flow
 
 import {
-  isNull,
-  isArray,
   isSet,
   isMap,
+  isNull,
+  isArray,
   isRegExp,
 } from '../expect/value_type.mjs'
 

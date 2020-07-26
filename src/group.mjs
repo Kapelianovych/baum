@@ -1,7 +1,7 @@
 // @flow
 
-import type { TestObject } from './test.mjs'
 import Logger from './loggers/logger.mjs'
+import type { TestObject } from './test.mjs'
 
 type TestHooks = {
   beforeAll?: () => void,

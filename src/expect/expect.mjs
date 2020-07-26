@@ -1,26 +1,26 @@
 // @flow
 
 import BaumError from '../baum_error.mjs'
+import { coerce } from '../utils/coerce.mjs'
 import { match, equal } from './equality.mjs'
 import {
-  isString,
-  isNumber,
-  isBoolean,
-  isNaN,
-  isArray,
   isSet,
-  isWeakSet,
+  isNaN,
   isMap,
-  isWeakMap,
   isNull,
-  isUndefined,
-  isFunction,
-  isPromise,
-  isPlainObject,
+  isArray,
   isRegExp,
-  isTruthy
+  isTruthy,
+  isNumber,
+  isString,
+  isPromise,
+  isBoolean,
+  isWeakSet,
+  isWeakMap,
+  isFunction,
+  isUndefined,
+  isPlainObject,
 } from './value_type.mjs'
-import { coerce } from '../utils/coerce.mjs'
 
 type ExpectRightChecks = {
   toEqual: (expected: mixed) => void,

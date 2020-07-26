@@ -1,4 +1,9 @@
-# 0.7.0
+# [0.8.0] - 2020-07-26
+### Added
+- Typescript declaration file.
+- Support for CommonJS. 
+
+## 0.7.0
 
 - Change internal behavior of `test` and `group` functions (signatures do not change).
 - Add **hooks** parameter to `group` function.
