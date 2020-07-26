@@ -1,11 +1,19 @@
-# Baum 🌴 - for testing ES modules in browser and NodeJS
-
-It is designed as set of ES modules and will not work in *commonjs* module system.
+# Baum 🌴 - for testing ES modules and CommonJS in browser and NodeJS
 
 ## Installing
 
 ```sh
 $ npm i -D @prostory/baum
+```
+
+## Importing
+
+```js
+// ES modules
+import { group } from '/path/to/@prostory/baum/dist/index.mjs'
+
+// CommonJS
+const { group } = require('@prostory/baum')
 ```
 
 ## API
@@ -214,9 +222,5 @@ This is the main function which performs testing your code. It accepts *value* t
     ```
 
 > Note - for testing `Promises` you must `await` Promise that returns by of `toBeResolved()` and `toBeRejected()` or return it, in order to tests finish properly. This methods do the same in `not` property also.
-
-## Warning
-
-I am still experimenting on library, so function definitions may be changed yet.
 
 With ❤️ to Baum

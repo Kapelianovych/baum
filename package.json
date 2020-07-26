@@ -1,8 +1,9 @@
 {
   "name": "@prostory/baum",
   "version": "0.8.0",
-  "description": "Test library to test CommonJS or ES modules in browser and NodeJS environments",
-  "main": "dist/index.mjs",
+  "description": "Test library to test CommonJS and ES modules in browser and NodeJS environments",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "scripts": {
     "clean": "rm -r dist/*",
     "build": "npm run clean; rollup --config",
