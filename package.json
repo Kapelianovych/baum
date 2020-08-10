@@ -27,6 +27,6 @@
     "flow-bin": "^0.130.0",
     "rollup": "^2.23.0",
     "rollup-plugin-flow": "^1.1.1",
-    "rollup-plugin-terser": "^6.1.0"
+    "rollup-plugin-terser": "^7.0.0"
   }
 }
